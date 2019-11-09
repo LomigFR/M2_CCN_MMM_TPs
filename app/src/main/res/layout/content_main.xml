@@ -11,6 +11,15 @@
     tools:showIn="@layout/activity_main"
     tools:visibility="visible">
 
+    <Button
+        android:id="@+id/validateButtonRecyclerView"
+        android:layout_width="197dp"
+        android:layout_height="61dp"
+        android:layout_marginBottom="16dp"
+        android:text="Validate to recyclerView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <EditText
         android:id="@+id/phoneNumber"
         android:layout_width="wrap_content"
@@ -81,13 +90,12 @@
 
     <Button
         android:id="@+id/validateButton"
-        android:layout_width="409dp"
-        android:layout_height="54dp"
-        android:text="Validate"
+        android:layout_width="197dp"
+        android:layout_height="61dp"
+        android:layout_marginBottom="16dp"
+        android:text="Validate to parcelable"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-         />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"

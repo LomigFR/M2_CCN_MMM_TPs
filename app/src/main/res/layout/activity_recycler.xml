@@ -4,25 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RecyclerActivity">
+    tools:context=".MainActivity"
+    android:orientation="vertical">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerInfos"
-        android:layout_width="290dp"
-        android:layout_height="419dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
+        android:id="@+id/infos_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/newClient"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Add new client"
+        android:id="@+id/new_client_button"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:backgroundTint="#6F656C"
+        android:text="Add a new client"
+        android:textAllCaps="false"
+        android:textColor="#CCE7DEDE"
+        android:textColorHighlight="#00EEE8E8"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Add a new client" />
 </androidx.constraintlayout.widget.ConstraintLayout>

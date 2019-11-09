@@ -3,7 +3,7 @@ package com.example.myapplication2;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Infos implements Parcelable {
+public class InfosForParcelable implements Parcelable {
 
     private String name;
     private String firstName;
@@ -12,9 +12,7 @@ public class Infos implements Parcelable {
     private String deptBirth;
     private String phoneNumber;
 
-
-
-    public Infos(String name, String firstName, String dateBirth, String townBirth, String deptBirth, String phoneNumber) {
+    public InfosForParcelable(String name, String firstName, String dateBirth, String townBirth, String deptBirth, String phoneNumber) {
         this.name = name;
         this.firstName = firstName;
         this.dateBirth = dateBirth;
@@ -23,7 +21,8 @@ public class Infos implements Parcelable {
         this.phoneNumber = phoneNumber;
     }
 
-    protected Infos(Parcel in) {
+
+    protected InfosForParcelable(Parcel in) {
         name = in.readString();
         firstName = in.readString();
         dateBirth = in.readString();
@@ -32,7 +31,7 @@ public class Infos implements Parcelable {
         phoneNumber = in.readString();
     }
 
-    public static final Creator<Infos> CREATOR = new Creator<Infos>() {
+    public static final Creator<InfosForParcelable> CREATOR = new Creator<InfosForParcelable>() {
 
         /**
          * Créer un objet Infos depuis une parcelle.
@@ -40,13 +39,13 @@ public class Infos implements Parcelable {
          * @return
          */
         @Override
-        public Infos createFromParcel(Parcel in) {
-            return new Infos(in);
+        public InfosForParcelable createFromParcel(Parcel in) {
+            return new InfosForParcelable(in);
         }
 
         @Override
-        public Infos[] newArray(int size) {
-            return new Infos[size];
+        public InfosForParcelable[] newArray(int size) {
+            return new InfosForParcelable[size];
         }
     };
 
@@ -87,6 +86,5 @@ public class Infos implements Parcelable {
         parcel.writeString(townBirth);
         parcel.writeString(deptBirth);
         parcel.writeString(phoneNumber);
-
     }
 }

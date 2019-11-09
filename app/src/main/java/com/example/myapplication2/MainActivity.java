@@ -19,18 +19,25 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity /* implements ContactsAdapter.ContactsAdapterListener*/{
+public class MainActivity extends AppCompatActivity{
 
     @BindView(R.id.name) EditText name;
     @BindView(R.id.firstName) EditText firstName;
     @BindView(R.id.birthDate) EditText birthDate;
     @BindView(R.id.townOfBirth) EditText townOfBirth;
     @BindView(R.id.deptSpinner) Spinner departments;
-    @BindView(R.id.validateButton) Button button;
+    @BindView(R.id.validateButton) Button buttonParcelable;
+    @BindView(R.id.validateButtonRecyclerView) Button buttonRecyclerView;
     @BindView(R.id.phoneNumber) EditText phoneNumber;
 
     String selectedDepartment = "";
@@ -42,7 +49,8 @@ public class MainActivity extends AppCompatActivity /* implements ContactsAdapte
 
     public void activateButton(){
         if(activateName && activateFirstName && activateBirthDate && activateTownOfBirth){
-            button.setEnabled(true);
+            buttonParcelable.setEnabled(true);
+            buttonRecyclerView.setEnabled(true);
         }
     }
 
@@ -50,14 +58,46 @@ public class MainActivity extends AppCompatActivity /* implements ContactsAdapte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         ButterKnife.bind(this);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         activateButton();
 
-        button.setEnabled(false);
+        final List<Info> listOfInfos = new ArrayList<>();
 
-        button.setOnClickListener(new View.OnClickListener() {
+        buttonParcelable.setEnabled(false);
+        buttonRecyclerView.setEnabled(false);
+
+        buttonRecyclerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String nameRetrieved = name.getText().toString();
+                String firstNameRetrieved = firstName.getText().toString();
+                String birthDateRetrieved = birthDate.getText().toString();
+                String townOfBirthRetrieved = townOfBirth.getText().toString();
+                String phoneNumberRetrieved = phoneNumber.getText().toString();
+                String departmentRetrieved = departments.getSelectedItem().toString();
+
+                afficher(v);
+
+                listOfInfos.add(new Info("Your name is ", nameRetrieved));
+                listOfInfos.add(new Info("Your first name is ", firstNameRetrieved));
+                listOfInfos.add(new Info("You were born on the ", birthDateRetrieved));
+                listOfInfos.add(new Info("Your town of birth is ", townOfBirthRetrieved));
+                listOfInfos.add(new Info("Your department is ", departmentRetrieved));
+                listOfInfos.add(new Info("Your phone number is ", phoneNumberRetrieved));
+
+                Intent intent = new Intent(MainActivity.this, RecyclerActivity.class);
+
+                InfosForRecyclerView infos = new InfosForRecyclerView(listOfInfos);
+                intent.putExtra("Infos", infos);
+
+                startActivity(intent);
+            }
+        });
+
+        buttonParcelable.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -68,14 +108,7 @@ public class MainActivity extends AppCompatActivity /* implements ContactsAdapte
                 String phoneNumberRetrieved = phoneNumber.getText().toString();
                 String departmentRetrieved = departments.getSelectedItem().toString();
 
-                String fullInfos = "Vous vous appelez "
-                        + firstNameRetrieved + " "
-                        + nameRetrieved + "\n"
-                        + "Vous êtes né le "
-                        + birthDateRetrieved + " à " + townOfBirthRetrieved
-                        + "(Département = " + selectedDepartment + ")"
-                        + "\nVotre numéro de téléphone : " + phoneNumberRetrieved;
-                Toast.makeText(getApplicationContext(), fullInfos, Toast.LENGTH_SHORT).show();
+                afficher(v);
 
                 name.setText("");
                 firstName.setText("");
@@ -85,7 +118,7 @@ public class MainActivity extends AppCompatActivity /* implements ContactsAdapte
                 activateFirstName =false;
                 activateBirthDate =false;
                 activateTownOfBirth =false;
-                button.setEnabled(false);
+                buttonParcelable.setEnabled(false);
 
                 Intent intent = new Intent(MainActivity.this, InfosActivity.class);
 
@@ -96,7 +129,7 @@ public class MainActivity extends AppCompatActivity /* implements ContactsAdapte
                 intent.putExtra("deptOfBirth", departmentRetrieved);
                 intent.putExtra("phoneNumber", phoneNumberRetrieved);*/
 
-                Infos infos = new Infos(nameRetrieved, firstNameRetrieved, birthDateRetrieved, townOfBirthRetrieved, phoneNumberRetrieved, departmentRetrieved);
+                InfosForParcelable infos = new InfosForParcelable(nameRetrieved, firstNameRetrieved, birthDateRetrieved, townOfBirthRetrieved, phoneNumberRetrieved, departmentRetrieved);
                 intent.putExtra("Infos", infos);
 
                 startActivity(intent);
@@ -182,15 +215,18 @@ public class MainActivity extends AppCompatActivity /* implements ContactsAdapte
     }
 
     public void afficher(View v) {
+
+        String nameRetrieved = name.getText().toString();
         String firstNameRetrieved = firstName.getText().toString();
         String birthDateRetrieved = birthDate.getText().toString();
         String townOfBirthRetrieved = townOfBirth.getText().toString();
-        String departmentOfBirthRetrieved = selectedDepartment;
-        Toast.makeText(getApplicationContext(), firstNameRetrieved
-                + birthDateRetrieved
-                + townOfBirthRetrieved
-                + departmentOfBirthRetrieved
-                , Toast.LENGTH_SHORT).show();
+        String phoneNumberRetrieved = phoneNumber.getText().toString();
+        String departmentRetrieved = departments.getSelectedItem().toString();
+
+        String fullInfos = "Vous vous appelez " + firstNameRetrieved + " " + nameRetrieved + "\n"
+                + "Vous êtes né le " + birthDateRetrieved + " à " + townOfBirthRetrieved + "(Département = " + departmentRetrieved + ")"
+                + "\nVotre numéro de téléphone est le : " + phoneNumberRetrieved;
+        Toast.makeText(getApplicationContext(), fullInfos, Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -55,7 +55,7 @@ public class InfosActivity extends AppCompatActivity {
                 receivedPhoneNumber = intent.getStringExtra("phoneNumber");
             }*/
 
-            Infos infos = intent.getParcelableExtra("Infos");
+            InfosForParcelable infos = intent.getParcelableExtra("Infos");
 
             if(infos != null){
                 receivedName = infos.getName();
