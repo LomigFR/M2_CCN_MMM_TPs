@@ -12,6 +12,15 @@
     tools:visibility="visible">
 
     <Button
+        android:id="@+id/validateButtonFullList"
+        android:layout_width="197dp"
+        android:layout_height="61dp"
+        android:layout_marginBottom="19dp"
+        android:text="Validate and display full list"
+        app:layout_constraintBottom_toTopOf="@+id/validateButtonRecyclerView"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
         android:id="@+id/validateButtonRecyclerView"
         android:layout_width="197dp"
         android:layout_height="61dp"
@@ -27,7 +36,6 @@
         android:layout_marginBottom="25dp"
         android:ems="10"
         android:hint="Phone number"
-        android:inputType="textPersonName"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/deptSpinner"
         app:layout_constraintEnd_toEndOf="parent"
@@ -52,7 +60,7 @@
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="102dp"
+        android:layout_marginTop="32dp"
         android:ems="10"
         android:hint="Name"
         android:inputType="textPersonName"
@@ -110,7 +118,6 @@
         android:layout_width="212dp"
         android:layout_height="58dp"
         android:layout_marginStart="33dp"
-        android:layout_marginTop="30dp"
         android:layout_marginEnd="166dp"
         android:entries="@array/departments"
         app:layout_constraintEnd_toEndOf="parent"

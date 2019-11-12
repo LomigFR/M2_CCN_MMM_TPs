@@ -19,7 +19,7 @@ public class InfosForRecyclerView implements Parcelable {
     public static final Creator<InfosForRecyclerView> CREATOR = new Creator<InfosForRecyclerView>() {
 
         /**
-         * Créer un objet Infos depuis une parcelle.
+         * Créer un objet Info depuis une parcelle.
          * @param in
          * @return
          */
@@ -42,7 +42,7 @@ public class InfosForRecyclerView implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int flags) {
-        parcel.writeTypedList(listOfInfos);
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeTypedList(listOfInfos);
     }
 }

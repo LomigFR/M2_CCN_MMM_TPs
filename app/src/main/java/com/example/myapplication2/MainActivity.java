@@ -17,6 +17,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity{
     @BindView(R.id.validateButton) Button buttonParcelable;
     @BindView(R.id.validateButtonRecyclerView) Button buttonRecyclerView;
     @BindView(R.id.phoneNumber) EditText phoneNumber;
+    @BindView(R.id.validateButtonFullList) Button buttonFullList;
 
     String selectedDepartment = "";
 
@@ -51,6 +53,7 @@ public class MainActivity extends AppCompatActivity{
         if(activateName && activateFirstName && activateBirthDate && activateTownOfBirth){
             buttonParcelable.setEnabled(true);
             buttonRecyclerView.setEnabled(true);
+            buttonFullList.setEnabled(true);
         }
     }
 
@@ -65,9 +68,52 @@ public class MainActivity extends AppCompatActivity{
         activateButton();
 
         final List<Info> listOfInfos = new ArrayList<>();
+        final List<User> listOfUsers = new ArrayList<>();
+
+        User toto = new User("Durand", "Toto", "10/10/10", "Trifouillis", "0555555555", "Oise");
+        User titi = new User("Dupond", "Titi", "9/9/9", "Pommé/Loire", "0444444444", "Oise");
+        User tutu = new User("Martin", "Tutu", "8/8/8", "Pèt-Zouille-les-Oies", "0333333333", "Oise");
+
+        listOfUsers.add(toto);
+        listOfUsers.add(titi);
+        listOfUsers.add(tutu);
 
         buttonParcelable.setEnabled(false);
         buttonRecyclerView.setEnabled(false);
+        buttonFullList.setEnabled(false);
+
+        name.requestFocus();
+
+        buttonFullList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String nameRetrieved = name.getText().toString();
+                String firstNameRetrieved = firstName.getText().toString();
+                String birthDateRetrieved = birthDate.getText().toString();
+                String townOfBirthRetrieved = townOfBirth.getText().toString();
+                String phoneNumberRetrieved = phoneNumber.getText().toString();
+                String departmentRetrieved = departments.getSelectedItem().toString();
+
+                User nonameUser = new User(nameRetrieved, firstNameRetrieved, birthDateRetrieved, townOfBirthRetrieved, phoneNumberRetrieved, departmentRetrieved);
+                listOfUsers.add(nonameUser);
+
+                Intent intent = new Intent(MainActivity.this, RecyclerActivityUser.class);
+                UsersForRecyclerView user = new UsersForRecyclerView(listOfUsers);
+                intent.putExtra("Users", user);
+                startActivityForResult(intent,0);
+
+                name.setText("");
+                firstName.setText("");
+                birthDate.setText("");
+                townOfBirth.setText("");
+                phoneNumber.setVisibility(View.INVISIBLE);
+                departments.setSelection(0);
+
+                buttonParcelable.setEnabled(false);
+                buttonRecyclerView.setEnabled(false);
+                buttonFullList.setEnabled(false);
+            }
+        });
 
         buttonRecyclerView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,10 +135,8 @@ public class MainActivity extends AppCompatActivity{
                 listOfInfos.add(new Info("Your phone number is ", phoneNumberRetrieved));
 
                 Intent intent = new Intent(MainActivity.this, RecyclerActivity.class);
-
                 InfosForRecyclerView infos = new InfosForRecyclerView(listOfInfos);
                 intent.putExtra("Infos", infos);
-
                 startActivity(intent);
             }
         });
@@ -255,26 +299,21 @@ public class MainActivity extends AppCompatActivity{
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         // int id = item.getItemId();
+        // noinspection SimplifiableIfStatement
 
-        //noinspection SimplifiableIfStatement
         switch (item.getItemId()) {
             case R.id.reset_button :
                 name.setText("");
+                name.requestFocus();
                 firstName.setText("");
                 birthDate.setText("");
                 townOfBirth.setText("");
-                break;
-
-            case R.id.edit_button :
-                //comment
-                break;
-
-            /*case R.id.add_tph_button :
-                addPhoneField();
-                break;*/
-
-            case R.id.delete_button :
-                //comment
+                phoneNumber.setText("");
+                phoneNumber.setVisibility(View.INVISIBLE);
+                departments.setSelection(0);
+                buttonParcelable.setEnabled(false);
+                buttonFullList.setEnabled(false);
+                buttonRecyclerView.setEnabled(false);
                 break;
 
             case R.id.wiki_button :
@@ -288,5 +327,11 @@ public class MainActivity extends AppCompatActivity{
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
     }
 }

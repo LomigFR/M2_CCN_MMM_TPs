@@ -55,14 +55,17 @@ public class InfosAdapter extends RecyclerView.Adapter<InfosAdapter.InfosViewHol
             public void onClick(View v) {
                 Toast.makeText(context, listOfInfos.get(position).getKey()
                         + "\n"
-                        + listOfInfos.get(position).getValue(), Toast.LENGTH_SHORT);
+                        + listOfInfos.get(position).getValue(), Toast.LENGTH_SHORT).show();
             }
         });
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "This is your " + listOfInfos.get(position).getKey(), Toast.LENGTH_SHORT);
+                Toast.makeText(context, "This is your "
+                        + listOfInfos.get(position).getKey()
+                        + " : "
+                        + listOfInfos.get(position).getValue(), Toast.LENGTH_SHORT).show();
             }
         });
     }
